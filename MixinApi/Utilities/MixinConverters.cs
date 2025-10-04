@@ -50,7 +50,7 @@ namespace MixinApi.Utilities
                 StockQuantity = jsonProduct.StockType == "unlimited" ? 10 : 0,
                 Categories = new List<WebCategory>
             {
-                new WebCategory { Id = jsonProduct.MainCategory }
+                new WebCategory { Id = jsonProduct.MainCategory ?? 0 }
             },
                 IconPath = string.Empty,
                 Type = jsonProduct.HasVariants ? "variable" : "simple",
@@ -93,7 +93,7 @@ namespace MixinApi.Utilities
                 Id = webProduct.Id,
                 Name = webProduct.Name,
                 EnglishName = webProduct.Slug,
-                MainCategory = (int)categoryId,
+                MainCategory = categoryId,
                 Brand = null,
                 Price = (int)webProduct.SalePrice,
                 CompareAtPrice = compareAtPrice,

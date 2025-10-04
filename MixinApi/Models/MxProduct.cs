@@ -21,7 +21,7 @@ namespace MixinApi.Models
         public string EnglishName { get; set; }
 
         [JsonProperty("main_category")]
-        public int MainCategory { get; set; }
+        public int? MainCategory { get; set; }
 
         [JsonProperty("brand")]
         public object Brand { get; set; }
