@@ -98,7 +98,7 @@ namespace MixinApi.Utilities
                 Price = (int)webProduct.SalePrice,
                 CompareAtPrice = compareAtPrice,
                 StockType = stockType,
-                Stock = webProduct.StockQuantity,
+                Stock = (int)webProduct.StockQuantity,
                 HasVariants = webProduct.Type == "variable",
                 Available = true,
                 Images = new List<object>(),
