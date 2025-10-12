@@ -1,4 +1,5 @@
 ﻿using MixinApi.Contexts;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,37 +20,32 @@ namespace MixinApi
 
             Console.WriteLine("Welcome to the Mixin API Console Application!");
             
-            string url = "https://moeincommeretest.mixin.website";
+            string url = "https://eskortyadak.ir";
             var connectionConfig = new Dictionary<string, string>
             {
-                { "MixinApiKey", "uczKWlUvC2aFS4ye33alCivIlqpkAlQGYdwb-_CO1mefU9O-pGcVVgAEF5h1ax__"}
+                { "MixinApiKey", "AKzJn28GUSxmxUIwHl_iNksc7D9_eECgi20fofSqaTAqgZMZY-GUuslqNeJ0JVMN"}
             };
             IWebContext webContext = new WebContext(url, connectionConfig);
+            
+            var products = webContext.GetAllProducts();
+            const string path = "api/management/v1";
+            RestClient _client;
 
-            // product listing example
-            //var products = webContext.SearchProducts("Product", ProductTypes.Variable, 1, 1);
-            //foreach (var product in products)
-            //{
-            //    Console.WriteLine($"(ID: {product.Id})");
-            //}
+            var options = new RestClientOptions(new Uri(new Uri(url), path));
 
-            // product creating example
-
-            int randomId = new Random().Next(1000, 9999);
-            var sampleProduct = new WebProduct
+            _client = new RestClient(options);
+            _client.AddDefaultHeader("Accept", "application/json");
+            _client.AddDefaultHeader("Authorization", $"Api-Key AKzJn28GUSxmxUIwHl_iNksc7D9_eECgi20fofSqaTAqgZMZY-GUuslqNeJ0JVMN");
+            foreach (var product in products)
             {
-                Name = $"Created by Mixin API {randomId}",
-                RegularPrice = 20000,
-                SalePrice = 10000,
-                StockQuantity = 50,
-                Categories = new List<WebCategory> {
-                    new WebCategory
-                    {
-                        Id = 3,
-                    }
-                },
-            };
-            webContext.CreateProduct(sampleProduct);
+                var category = new
+                {
+                    main_category = 43
+                };
+                var request = new RestRequest($"products/{product.Id}/", Method.Patch);
+                request.AddJsonBody(category);
+                var result = _client.Put(request);
+            }
 
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
