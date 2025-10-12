@@ -94,7 +94,6 @@ namespace MixinApi.Utilities
                 Name = webProduct.Name,
                 EnglishName = webProduct.Slug,
                 MainCategory = categoryId,
-                Brand = null,
                 Price = (int)webProduct.SalePrice,
                 CompareAtPrice = compareAtPrice,
                 StockType = stockType,

@@ -18,7 +18,7 @@ namespace MixinApi
 
         public string ExecutablePath => AppDomain.CurrentDomain.BaseDirectory;
 
-        public string Version => "1.0.2";
+        public string Version => "1.0.3";
         public string IconPath => string.Empty;
 
         public List<WebConfig> Configurations =>
