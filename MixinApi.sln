@@ -1,20 +1,32 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36221.1 d17.14
+VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MixinApi", "MixinApi\MixinApi.csproj", "{F15FFD94-709A-48C5-996B-041312F549A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Compile|Any CPU = Compile|Any CPU
+		Compile|x86 = Compile|x86
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F15FFD94-709A-48C5-996B-041312F549A4}.Compile|Any CPU.ActiveCfg = Compile|Any CPU
+		{F15FFD94-709A-48C5-996B-041312F549A4}.Compile|Any CPU.Build.0 = Compile|Any CPU
+		{F15FFD94-709A-48C5-996B-041312F549A4}.Compile|x86.ActiveCfg = Compile|x86
+		{F15FFD94-709A-48C5-996B-041312F549A4}.Compile|x86.Build.0 = Compile|x86
 		{F15FFD94-709A-48C5-996B-041312F549A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F15FFD94-709A-48C5-996B-041312F549A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F15FFD94-709A-48C5-996B-041312F549A4}.Debug|x86.ActiveCfg = Debug|x86
+		{F15FFD94-709A-48C5-996B-041312F549A4}.Debug|x86.Build.0 = Debug|x86
 		{F15FFD94-709A-48C5-996B-041312F549A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F15FFD94-709A-48C5-996B-041312F549A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F15FFD94-709A-48C5-996B-041312F549A4}.Release|x86.ActiveCfg = Release|x86
+		{F15FFD94-709A-48C5-996B-041312F549A4}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
