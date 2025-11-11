@@ -81,8 +81,8 @@ namespace MixinApi.Utilities
             {
                 compareAtPrice = (int)webProduct.RegularPrice;
             }
-            var categoryId = webProduct.Categories?.FirstOrDefault()?.Id;
-            if (categoryId == null || categoryId == 0)
+            long categoryId = webProduct.Categories?.FirstOrDefault()?.Id ?? 0;
+            if (categoryId == 0)
             {
                 categoryId = 1; // Default to category ID 1 if none provided
             }

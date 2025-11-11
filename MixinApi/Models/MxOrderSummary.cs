@@ -10,7 +10,7 @@ namespace MixinApi.Models
     public class MxOrderSummary
     {
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [JsonProperty("first_name")]
         public string FirstName { get; set; }

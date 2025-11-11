@@ -244,17 +244,17 @@ namespace MixinApi.Contexts
 
         #region Product Methods
 
-        public new int CreateProduct(WebProduct entity, List<ExcludedFields> excludedFields = null)
+        public new long CreateProduct(WebProduct entity, List<ExcludedFields> excludedFields = null)
         {
             const string endpoint = "products/";
             var mxProduct = MixinConverters.ToMxProduct(entity);
             var request = new RestRequest(endpoint, Method.Post);
             var createdProduct = SendRequest<MxProduct>(request, mxProduct, excludedFields).Result;
-            int encodedId = (int)EncodedProduct.Encode(createdProduct.Id, 0);
+            long encodedId = EncodedProduct.Encode(createdProduct.Id, 0);
             return encodedId;
         }
 
-        public new int UpdateProduct(int id, WebProduct entity, List<ExcludedFields> excludedFields = null)
+        public new long UpdateProduct(long id, WebProduct entity, List<ExcludedFields> excludedFields = null)
         {
             if (excludedFields == null)
             {
@@ -269,7 +269,7 @@ namespace MixinApi.Contexts
                 excludedFields.Add(ExcludedFields.DraftStatus);
             }
 
-            int decodedId = (int)EncodedProduct.Decode(id).variableId;
+            long decodedId = EncodedProduct.Decode(id).variableId;
             entity.Id = decodedId;
 
             var endpoint = $"products/{decodedId}/";
@@ -283,13 +283,13 @@ namespace MixinApi.Contexts
             }
 
             var updatedProduct = SendRequest<MxProduct>(request, updatedProductData, excludedFields).Result;
-            int encodedId = (int)EncodedProduct.Encode(updatedProduct.Id, 0);
+            long encodedId = EncodedProduct.Encode(updatedProduct.Id, 0);
             return encodedId;
         }
 
-        public new WebProduct GetProductById(int id)
+        public new WebProduct GetProductById(long id)
         {
-            int decodedId = (int)EncodedProduct.Decode(id).variableId;
+            long decodedId = EncodedProduct.Decode(id).variableId;
             var endpoint = $"products/{decodedId}/";
             var request = new RestRequest(endpoint, Method.Get);
             var mxProduct = SendRequest<MxProduct>(request).Result;
@@ -308,7 +308,7 @@ namespace MixinApi.Contexts
                 return true;
             }).Select(mxProduct =>
             {
-                mxProduct.Id = (int)EncodedProduct.Encode(mxProduct.Id, 0);
+                mxProduct.Id = EncodedProduct.Encode(mxProduct.Id, 0);
                 return MixinConverters.ToWebProduct(mxProduct);
             }).ToList();
         }
@@ -331,7 +331,7 @@ namespace MixinApi.Contexts
             }).Count();
         }
 
-        public new IEnumerable<WebProduct> GetAllProductsExcludingIds(IList<int> idsToExclude)
+        public new IEnumerable<WebProduct> GetAllProductsExcludingIds(IList<long> idsToExclude)
         {
             const string endPoint = "products/";
             var request = new RestRequest(endPoint, Method.Get);
@@ -339,7 +339,7 @@ namespace MixinApi.Contexts
             return products.Results.Where(p => !idsToExclude.Contains(p.Id))
                                   .Select(mxProduct =>
                                   {
-                                        mxProduct.Id = (int)EncodedProduct.Encode(mxProduct.Id, 0);
+                                        mxProduct.Id = EncodedProduct.Encode(mxProduct.Id, 0);
                                         return MixinConverters.ToWebProduct(mxProduct);
                                   }).ToList();
         }
@@ -370,7 +370,7 @@ namespace MixinApi.Contexts
             }
             return response.Where(r => r.Name.Contains(searchTerm)).Select(mxProduct =>
             { 
-                mxProduct.Id = (int)EncodedProduct.Encode(mxProduct.Id, 0);
+                mxProduct.Id = EncodedProduct.Encode(mxProduct.Id, 0);
                 return MixinConverters.ToWebProduct(mxProduct); 
             });
         }
@@ -393,21 +393,21 @@ namespace MixinApi.Contexts
 
             foreach (var product in results)
             {
-                product.Id = (int)EncodedProduct.Encode(product.Id, 0);
+                product.Id = EncodedProduct.Encode(product.Id, 0);
                 WebProduct retreivedProduct = GetProductById(product.Id);
                 productsByDetail.Add(retreivedProduct);
             }
             return productsByDetail;
         }
 
-        public new int GetMaxProductId()
+        public new long GetMaxProductId()
         {
             const string endpoint = "products/";
             var request = new RestRequest(endpoint, Method.Get);
             var response = SendRequest<MxPaginatedResponse<MxProduct>>(request).Result;
             return response.Results.Select(product =>
             {
-                return (int)EncodedProduct.Encode(product.Id, 0);
+                return EncodedProduct.Encode(product.Id, 0);
             }).Max(product => product);
         }
 
@@ -424,25 +424,25 @@ namespace MixinApi.Contexts
             response = response.Where(p => p.HasVariants).ToList();
             return response.Where(r => r.Name.Contains(searchTerm)).Select(mxProduct => 
             {
-                mxProduct.Id = (int)EncodedProduct.Encode(mxProduct.Id, 0); 
+                mxProduct.Id = EncodedProduct.Encode(mxProduct.Id, 0); 
                 return MixinConverters.ToWebProduct(mxProduct); 
             });
         }
 
-        public new IEnumerable<WebProduct> GetVariationProductsByVariableId(int variableId)
+        public new IEnumerable<WebProduct> GetVariationProductsByVariableId(long variableId)
         {
-            int decodedVariableId = (int)EncodedProduct.Decode(variableId).variableId;
+            long decodedVariableId = EncodedProduct.Decode(variableId).variableId;
             string endPoint = $"products/{decodedVariableId}/variants/";
             var request = new RestRequest(endPoint, Method.Get);
             return GetAllWithPagination<MxVariant>(request, pageResults => true)
                 .Select(variation =>
                 {
                     var webProduct = MixinConverters.MxVariantToMcProduct(variation);
-                    webProduct.Id = (int)EncodedProduct.Encode(decodedVariableId, variation.Id);
+                    webProduct.Id = EncodedProduct.Encode(decodedVariableId, variation.Id);
                     return webProduct;
                 }).ToList();
         }
-        public new void UpdateVariationProduct(int variableId, WebProduct variationProduct, List<ExcludedFields> excludedFields = null)
+        public new void UpdateVariationProduct(long variableId, WebProduct variationProduct, List<ExcludedFields> excludedFields = null)
         {
             if (excludedFields == null)
             {
@@ -460,7 +460,7 @@ namespace MixinApi.Contexts
             {
                 excludedFields.Add(ExcludedFields.DraftStatus);
             }
-            (int decodedVariableId, int decodedVariationId) = ((int, int))EncodedProduct.Decode(variationProduct.Id);
+            (long decodedVariableId, long decodedVariationId) = EncodedProduct.Decode(variationProduct.Id);
             variationProduct.Id = decodedVariationId;
 
             var endPoint = $"products/{decodedVariableId}/variants/{decodedVariationId}/";
@@ -478,7 +478,7 @@ namespace MixinApi.Contexts
 
         #region Category Methods
 
-        public new WebCategory GetCategoryById(int id)
+        public new WebCategory GetCategoryById(long id)
         {
             var endPoint = $"categories/{id}/";
             var request = new RestRequest(endPoint, Method.Get);
@@ -498,7 +498,7 @@ namespace MixinApi.Contexts
             }).Select(MixinConverters.ToWebCategory).ToList();
         }
 
-        public new int CreateCategory(WebCategory entity, List<ExcludedFields> excludedFields = null)
+        public new long CreateCategory(WebCategory entity, List<ExcludedFields> excludedFields = null)
         {
             const string endPoint = "categories/";
             var mxCategory = MixinConverters.ToMxCategory(entity);
@@ -507,7 +507,7 @@ namespace MixinApi.Contexts
             return createdCategory.Id;
         }
 
-        public new int UpdateCategory(int id, WebCategory entity, List<ExcludedFields> excludedFields = null)
+        public new long UpdateCategory(long id, WebCategory entity, List<ExcludedFields> excludedFields = null)
         {
             excludedFields.Add(ExcludedFields.Sku);
             var endPoint = $"categories/{id}/";
@@ -533,7 +533,7 @@ namespace MixinApi.Contexts
             }).Select(MixinConverters.ToWebCategory).ToList();
         }
 
-        public new int GetMaxCategoryId()
+        public new long GetMaxCategoryId()
         {
             const string endpoint = "categories/";
             var request = new RestRequest(endpoint, Method.Get);
@@ -603,7 +603,7 @@ namespace MixinApi.Contexts
             }).Select(MixinConverters.ToWebCustomer).ToList();
         }
 
-        public new IEnumerable<KeyValuePair<int, string>> GetCustomerIdAndNameBySearch(
+        public new IEnumerable<KeyValuePair<long, string>> GetCustomerIdAndNameBySearch(
             string searchTerm,
             int page = 1,
             int pageSize = 10,
@@ -616,7 +616,7 @@ namespace MixinApi.Contexts
             var request = new RestRequest(endPoint, Method.Get);
             if (searchTerm == null)
             {
-                return new List<KeyValuePair<int, string>>();
+                return new List<KeyValuePair<long, string>>();
             }
 
             request.AddParameter("search", searchTerm);
@@ -626,11 +626,11 @@ namespace MixinApi.Contexts
                 results.AddRange(pageResults);
                 return true;
             }).Select(customer =>
-                new KeyValuePair<int, string>(customer.Id, $"{customer.FirstName} {customer.LastName}"))
+                new KeyValuePair<long, string>(customer.Id, $"{customer.FirstName} {customer.LastName}"))
                 .ToList();
         }
 
-        public new WebCustomer GetCustomerById(int id)
+        public new WebCustomer GetCustomerById(long id)
         {
             var endPoint = $"customers/{id}/";
             var request = new RestRequest(endPoint, Method.Get);
@@ -642,7 +642,7 @@ namespace MixinApi.Contexts
 
         #region Order Methods
 
-        public new IEnumerable<WebOrder> GetAllOrdersExcludeById(IEnumerable<int> idsToExclude, DateTime? startDate, DateTime? endDate)
+        public new IEnumerable<WebOrder> GetAllOrdersExcludeById(IEnumerable<long> idsToExclude, DateTime? startDate, DateTime? endDate)
         {
             const string endPoint = "orders/";
             var request = new RestRequest(endPoint, Method.Get);
@@ -672,12 +672,12 @@ namespace MixinApi.Contexts
                            }).ToList();
         }
 
-        public new IEnumerable<WebOrder> GetOrdersByFilters(DateTime? startDate, DateTime? endDate, IEnumerable<int> idsToExclude = null, IEnumerable<OrderStatus> orderStatuses = null)
+        public new IEnumerable<WebOrder> GetOrdersByFilters(DateTime? startDate, DateTime? endDate, IEnumerable<long> idsToExclude = null, IEnumerable<OrderStatus> orderStatuses = null)
         {
             const string endPoint = "orders/";
             if (idsToExclude == null)
             {
-                idsToExclude = new List<int>();
+                idsToExclude = new List<long>();
             }
 
             var request = new RestRequest(endPoint, Method.Get);
@@ -722,10 +722,10 @@ namespace MixinApi.Contexts
         }
 
         public new IEnumerable<WebOrder> GetOrdersBySearch(
-            IEnumerable<int> idsToExclude,
+            IEnumerable<long> idsToExclude,
             string searchTerm,
             IEnumerable<OrderStatus> orderStatuses,
-            int? customerId,
+            long? customerId,
             decimal totalMin,
             decimal totalMax,
             DateTime startDate,
@@ -771,7 +771,7 @@ namespace MixinApi.Contexts
             return orders;
         }
 
-        private WebOrder GetOrderById(int id)
+        private WebOrder GetOrderById(long id)
         {
             var endPoint = $"orders/{id}/";
             var request = new RestRequest(endPoint, Method.Get);
@@ -785,27 +785,27 @@ namespace MixinApi.Contexts
                 if (v1.HasValue)
                 {
                     // Try to validate / correct variant id
-                    int? resolvedVid = ResolveVariantId(result.Name, p1);
+                    long? resolvedVid = ResolveVariantId(result.Name, p1);
                     if (resolvedVid.HasValue)
                     {
-                        result.ProductId = (int)EncodedProduct.Encode(p1, resolvedVid.Value);
+                        result.ProductId = EncodedProduct.Encode(p1, resolvedVid.Value);
                     }
                     else
                     {
-                        result.ProductId = (int)EncodedProduct.Encode(p1, v1.Value);
+                        result.ProductId = EncodedProduct.Encode(p1, v1.Value);
                     }
                 }
                 else
                 {
                     // No variant from url, fallback
-                    result.ProductId = (int)EncodedProduct.Encode(p1, 0);
+                    result.ProductId = EncodedProduct.Encode(p1, 0);
                 }
             }
 
             return MixinConverters.ToWebOrder(mxOrder);
         }
 
-        private int? ResolveVariantId(string itemName, int productId)
+        private long? ResolveVariantId(string itemName, long productId)
         {
             // Call product variants endpoint
             var endPoint = $"products/{productId}/variants/";
@@ -834,7 +834,7 @@ namespace MixinApi.Contexts
         }
 
 
-        public new void UpdateOrderStatus(int orderId, OrderStatus orderStatus)
+        public new void UpdateOrderStatus(long orderId, OrderStatus orderStatus)
         {
             throw new NotImplementedException("Order status update is not supported by Mixin API");
         }

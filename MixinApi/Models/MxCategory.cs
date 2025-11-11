@@ -10,13 +10,13 @@ namespace MixinApi.Models
     public class MxCategory
     {
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
 
         [JsonProperty("parent")]
-        public int? Parent { get; set; }
+        public long? Parent { get; set; }
 
         [JsonProperty("available")]
         public bool Available { get; set; }

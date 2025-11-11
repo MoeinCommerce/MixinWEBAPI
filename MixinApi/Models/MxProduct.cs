@@ -12,7 +12,7 @@ namespace MixinApi.Models
     public class MxProduct
     {
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -21,7 +21,7 @@ namespace MixinApi.Models
         public string EnglishName { get; set; }
 
         [JsonProperty("main_category")]
-        public int? MainCategory { get; set; }
+        public long? MainCategory { get; set; }
 
         [JsonProperty("price")]
         public int? Price { get; set; }
@@ -51,7 +51,7 @@ namespace MixinApi.Models
     public class MxVariant
     {
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [JsonProperty("attributes")]
         public List<MxAttribute> Attributes { get; set; }
@@ -83,7 +83,7 @@ namespace MixinApi.Models
     public class MxAttribute
     {
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
 
         [JsonProperty("value")]
