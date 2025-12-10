@@ -14,7 +14,7 @@ namespace MixinApi.Utilities
             RegexOptions.Compiled | RegexOptions.IgnoreCase
         );
 
-        public static (int productId, int? variantId) Parse(string url)
+        public static (string productId, string variantId) Parse(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentException("URL cannot be null or empty.", nameof(url));
@@ -24,16 +24,20 @@ namespace MixinApi.Utilities
             if (!match.Success)
                 throw new InvalidOperationException("Invalid product URL format.");
 
-            int productId = int.Parse(match.Groups["productId"].Value);
+            string productId = match.Groups["productId"].Value;
 
             // Extract variantId if exists (?vid=)
-            int? variantId = null;
+            string variantId = null;
             var queryIndex = url.IndexOf("vid=", StringComparison.OrdinalIgnoreCase);
             if (queryIndex >= 0)
             {
                 var queryPart = url.Substring(queryIndex + 4); // skip "vid="
-                if (int.TryParse(queryPart.Split('&')[0], out int vid))
-                    variantId = vid;
+                
+                var tempVariantId = queryPart.Split('&')[0];
+                if (!string.IsNullOrWhiteSpace(tempVariantId))
+                {
+                    variantId = tempVariantId;
+                }
             }
 
             return (productId, variantId);

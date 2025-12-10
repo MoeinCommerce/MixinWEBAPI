@@ -10,7 +10,7 @@ namespace MixinApi.Models
     public class MxOrderItem
     {
         [JsonProperty("id")]
-        public long Id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -34,6 +34,6 @@ namespace MixinApi.Models
         public string Url { get; set; }
 
         [JsonIgnore]
-        public long ProductId { get; set; }
+        public string ProductId { get; set; }
     }
 }

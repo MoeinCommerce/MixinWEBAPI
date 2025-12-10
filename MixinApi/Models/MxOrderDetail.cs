@@ -10,7 +10,7 @@ namespace MixinApi.Models
     public class MxOrderDetail
     {
         [JsonProperty("id")]
-        public long Id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty("creation_date")]
         public DateTime CreationDate { get; set; }

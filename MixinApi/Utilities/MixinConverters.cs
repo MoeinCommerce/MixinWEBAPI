@@ -50,7 +50,7 @@ namespace MixinApi.Utilities
                 StockQuantity = jsonProduct.StockType == "unlimited" ? 10 : 0,
                 Categories = new List<WebCategory>
             {
-                new WebCategory { Id = jsonProduct.MainCategory ?? 0 }
+                new WebCategory { Id = jsonProduct.MainCategory ?? "0" }
             },
                 IconPath = string.Empty,
                 Type = jsonProduct.HasVariants ? "variable" : "simple",
@@ -81,10 +81,10 @@ namespace MixinApi.Utilities
             {
                 compareAtPrice = (int)webProduct.RegularPrice;
             }
-            long categoryId = webProduct.Categories?.FirstOrDefault()?.Id ?? 0;
-            if (categoryId == 0)
+            string categoryId = webProduct.Categories?.FirstOrDefault()?.Id ?? "0";
+            if (categoryId == "0")
             {
-                categoryId = 1; // Default to category ID 1 if none provided
+                categoryId = "1"; // Default to category ID 1 if none provided
             }
             string stockType = webProduct.StockQuantity <= 0 ? "out_of_stock" : "limited";
 
@@ -112,7 +112,7 @@ namespace MixinApi.Utilities
             {
                 Id = jsonCategory.Id,
                 Name = jsonCategory.Name,
-                ParentId = jsonCategory.Parent == 0 ? null : jsonCategory.Parent,
+                ParentId = jsonCategory.Parent == "0" ? null : jsonCategory.Parent,
                 Description = string.Empty, // Not available in JSON
                 IconPath = string.Empty // Not available in JSON
             };
@@ -124,7 +124,7 @@ namespace MixinApi.Utilities
             {
                 Id = webCategory.Id,
                 Name = webCategory.Name,
-                Parent = webCategory.ParentId == 0 ? null : webCategory.ParentId,
+                Parent = webCategory.ParentId == "0" ? null : webCategory.ParentId,
                 Available = true
             };
         }
@@ -176,7 +176,7 @@ namespace MixinApi.Utilities
             return new WebOrder
             {
                 Id = jsonOrder.Id,
-                CustomerId = 0, // Not directly available, would need customer lookup
+                CustomerId = "0", // Not directly available, would need customer lookup
                 CustomerNote = jsonOrder.CustomerNote,
                 PaymentMethod = paymentMethod,
                 TransactionId = string.Empty, // Not available in JSON
@@ -194,8 +194,8 @@ namespace MixinApi.Utilities
                 Shipping = MapMxShippingToWebCustomer(jsonOrder),
                 ShippingDetail = new WebShippingDetail
                 {
-                    Id = 0,
-                    VehicleId = 0,
+                    Id = "0",
+                    VehicleId = "0",
                     VehicleName = jsonOrder.ShippingMethodName,
                     VehiclePrice = jsonOrder.ShippingPrice ?? 0,
                     VehicleDescription = jsonOrder.ShippingMethodName
@@ -205,7 +205,7 @@ namespace MixinApi.Utilities
                     Id = item.Id,
                     Name = item.Name,
                     ProductId = item.ProductId,
-                    VariationId = 0,
+                    VariationId = "0",
                     Quantity = item.Quantity,
                     UnitPrice = item.CompareAtPrice ?? item.Price,
                     UnitDiscount = (item.CompareAtPrice ?? item.Price) - item.Price,
@@ -308,11 +308,12 @@ namespace MixinApi.Utilities
 
             return new WebPaymentMethod
             {
-                Id = methodId,
+                Id = methodId.ToString(),
                 Title = paymentMethod,
                 Description = paymentMethod
             };
         }
+
 
         public static OrderStatus MapOrderStatus(string status)
         {
@@ -361,11 +362,11 @@ namespace MixinApi.Utilities
 
             switch (paymentMethod.Id)
             {
-                case 1:
+                case "1":
                     return "online";
-                case 2:
+                case "2":
                     return "cash";
-                case 3:
+                case "3":
                     return "card";
                 default:
                     return "online";
