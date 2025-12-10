@@ -18,7 +18,7 @@ namespace MixinApi
 
         public string ExecutablePath => AppDomain.CurrentDomain.BaseDirectory;
 
-        public string Version => "1.1.0";
+        public string Version => "1.2.0";
         public string IconPath => string.Empty;
 
         public List<WebConfig> Configurations =>
@@ -30,6 +30,16 @@ namespace MixinApi
                     DefaultValue = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
                     DisplayName = "Mixin Api Key",
                     Description = "This is the key for the Mixin API",
+                    IsRequired = true,
+                    IsProtected = true,
+                    IsReadOnly = false
+                },
+                new WebConfig
+                {
+                    Key = "DefaultCategoryId",
+                    DefaultValue = "1",
+                    DisplayName = "شناسه دسته‌بندی پیش‌فرض",
+                    Description = "در هنگام ستخت محصول اگر دسته بندی موجود نباشد این شناسه به عنوان دسته بندی محصول معرفی میشود",
                     IsRequired = true,
                     IsProtected = true,
                     IsReadOnly = false

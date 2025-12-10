@@ -33,6 +33,14 @@ namespace MixinApi.Utilities
             {
                 regularPrice = salePrice;
             }
+            List<WebCategory> categories = null;
+            if (jsonProduct.MainCategory != null)
+            {
+                categories = new List<WebCategory>
+                {
+                    new WebCategory { Id = jsonProduct.MainCategory }
+                };
+            }
 
             return new WebProduct
             {
@@ -48,10 +56,7 @@ namespace MixinApi.Utilities
                 RegularPrice = regularPrice ?? 0,
                 SalePrice = salePrice ?? 0,
                 StockQuantity = jsonProduct.StockType == "unlimited" ? 10 : 0,
-                Categories = new List<WebCategory>
-            {
-                new WebCategory { Id = jsonProduct.MainCategory ?? "0" }
-            },
+                Categories = categories,
                 IconPath = string.Empty,
                 Type = jsonProduct.HasVariants ? "variable" : "simple",
                 Attributes = new List<WebApi.Models.Attribute>()
@@ -112,7 +117,7 @@ namespace MixinApi.Utilities
             {
                 Id = jsonCategory.Id,
                 Name = jsonCategory.Name,
-                ParentId = jsonCategory.Parent == "0" ? null : jsonCategory.Parent,
+                ParentId = jsonCategory.Parent,
                 Description = string.Empty, // Not available in JSON
                 IconPath = string.Empty // Not available in JSON
             };
@@ -124,7 +129,7 @@ namespace MixinApi.Utilities
             {
                 Id = webCategory.Id,
                 Name = webCategory.Name,
-                Parent = webCategory.ParentId == "0" ? null : webCategory.ParentId,
+                Parent = webCategory.ParentId,
                 Available = true
             };
         }
@@ -176,7 +181,7 @@ namespace MixinApi.Utilities
             return new WebOrder
             {
                 Id = jsonOrder.Id,
-                CustomerId = "0", // Not directly available, would need customer lookup
+                CustomerId = null, // Not directly available, would need customer lookup
                 CustomerNote = jsonOrder.CustomerNote,
                 PaymentMethod = paymentMethod,
                 TransactionId = string.Empty, // Not available in JSON
