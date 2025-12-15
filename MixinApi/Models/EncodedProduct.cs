@@ -42,8 +42,8 @@ namespace MixinApi.Models
             long variationId = z - t;
             long variableId = w - variationId;
             
-            string variableIdStr = variationId.ToString();
-            string variationIdStr = variableId.ToString();
+            string variableIdStr = variableId.ToString();
+            string variationIdStr = variationId.ToString();
 
             return (variableIdStr, variationIdStr);
         }
