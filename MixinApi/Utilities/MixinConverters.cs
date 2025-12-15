@@ -210,7 +210,6 @@ namespace MixinApi.Utilities
                     Id = item.Id,
                     Name = item.Name,
                     ProductId = item.ProductId,
-                    VariationId = "0",
                     Quantity = item.Quantity,
                     UnitPrice = item.CompareAtPrice ?? item.Price,
                     UnitDiscount = (item.CompareAtPrice ?? item.Price) - item.Price,
