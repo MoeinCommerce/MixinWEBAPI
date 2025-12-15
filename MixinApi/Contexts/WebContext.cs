@@ -111,6 +111,10 @@ namespace MixinApi.Contexts
                             {
                                 throw new WebInvalidFieldException(WebExceptionFields.DuplicateCategoryName, response.Content);
                             }
+                            if (response.Content.Contains("main_category"))
+                            {
+                                throw new WebInvalidFieldException("BadRequest", "دسته‌بندی موردنظر بر روی سایت تعریف نشده است");
+                            }
                         }
                         throw new WebInvalidFieldException("BadRequest", response.Content);
 
@@ -250,6 +254,13 @@ namespace MixinApi.Contexts
         {
             const string endpoint = "products/";
             var mxProduct = MixinConverters.ToMxProduct(entity);
+
+            if (excludedFields.Contains(ExcludedFields.CategoryOfProduct))
+            {
+                mxProduct.MainCategory = _defaultCategoryId;
+                excludedFields.Remove(ExcludedFields.CategoryOfProduct);
+            }
+
             var request = new RestRequest(endpoint, Method.Post);
             var createdProduct = SendRequest<MxProduct>(request, mxProduct, excludedFields).Result;
             string encodedId = EncodedProduct.Encode(createdProduct.Id, "0");
@@ -291,7 +302,7 @@ namespace MixinApi.Contexts
             }
 
             var updatedProduct = SendRequest<MxProduct>(request, updatedProductData, excludedFields).Result;
-            string encodedId = EncodedProduct.Encode(updatedProduct.Id, "0").ToString();
+            string encodedId = EncodedProduct.Encode(entity.Id, "0").ToString();
             return encodedId;
         }
 
