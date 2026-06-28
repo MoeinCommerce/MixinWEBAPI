@@ -38,7 +38,7 @@ namespace MixinApi
                 {
                     Key = "DefaultCategoryId",
                     DefaultValue = "1",
-                    DisplayName = "شناسه دسته‌بندی پیش‌فرض",
+                    DisplayName = "Mixin Default Category Id",
                     Description = "در هنگام ساخت محصول اگر دسته بندی موجود نباشد این شناسه به عنوان دسته بندی محصول معرفی میشود",
                     IsRequired = true,
                     IsProtected = true,
