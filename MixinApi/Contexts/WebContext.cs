@@ -24,6 +24,7 @@ namespace MixinApi.Contexts
         private int _currentPage = 1;
         private int _pageSize = 100;
         private string _defaultCategoryId = "1";
+        private readonly int _delayBetweenRequest;
 
         public WebContext(string url, Dictionary<string, string> configs)
             : base(url, configs)
@@ -31,6 +32,7 @@ namespace MixinApi.Contexts
             try
             {
                 var apiKey = configs["MixinApiKey"];
+                _delayBetweenRequest = Convert.ToInt32(configs["DelayBetweenRequest"]);
                 _defaultCategoryId = configs.ContainsKey("DefaultCategoryId") ? configs["DefaultCategoryId"] : "1";
                 const string path = "api/management/v1";
 
@@ -49,6 +51,8 @@ namespace MixinApi.Contexts
 
         private Task<T> SendRequest<T>(RestRequest request, object body = null, List<ExcludedFields> excludedFields = null)
         {
+            Task.Delay(_delayBetweenRequest).Wait();
+
             try
             {
                 if (body != null)

@@ -43,6 +43,16 @@ namespace MixinApi
                     IsRequired = true,
                     IsProtected = true,
                     IsReadOnly = false
+                },
+                new WebConfig
+                {
+                    Key = "DelayBetweenRequest",
+                    DefaultValue = "2000",
+                    DisplayName = "Delay Between Request",
+                    Description = "",
+                    IsRequired = true,
+                    IsProtected = true,
+                    IsReadOnly = false
                 }
             };
     }
