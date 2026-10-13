@@ -811,6 +811,13 @@ namespace MixinApi.Contexts
             foreach (var result in mxOrder.Items)
             {
                 string productUrl = result.Url;
+
+                if (string.IsNullOrEmpty(productUrl))
+                {
+                    result.ProductId = EncodedProduct.Encode("0" , "0");
+                    continue;
+                }
+
                 var (p1, v1) = ProductUrlParser.Parse(productUrl);
 
                 if (v1 != null)
